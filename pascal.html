@@ -1,0 +1,118 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<h1>Gerador de Triângulo de Pascal</h1>
+<input type="text" placeholder="Insira número de linhas" id="input">
+<button type="button" onClick="showTriangle();">Gerar</button> 
+
+
+<script>
+    function buildTriangle(rowsAmmount) {
+        if (isNaN(rowsAmmount)) return [];
+        if (rowsAmmount < 0) return [];
+
+        let triangle = [];
+        for (let row = 0; row <= rowsAmmount; row++) { 
+
+            triangle[row] = [];
+            
+            for (let column = 0; column <= row; column++) { 
+
+                let prevRow = row - 1;
+                let prevColumn = column - 1;
+                
+                if (triangle[prevRow] != undefined) {
+                    if (triangle[prevRow][column] != undefined) {
+                        numberA = triangle[prevRow][column];
+                    }
+                    else numberA = 0;
+
+                    if (triangle[prevRow] != undefined) {
+                        if (triangle[prevRow][prevColumn] != undefined) {
+                            numberB = triangle[prevRow][prevColumn];
+                        }
+                        else numberB = 0; 
+                    }
+                }
+                else {
+                    numberA = 0;
+                    numberB = 1;
+                }
+
+                triangle[row][column] = numberA + numberB;
+
+            }
+        }
+        return triangle;
+    }
+
+    function buildTable(triangle) {
+
+        let table = document.getElementById("table");
+
+        if (table != null) document.body.removeChild(table);
+
+        table = document.createElement("table");
+        var tableBody = document.createElement("tbody");
+
+        for (let r = 0; r < triangle.length; r++) {
+            var row = document.createElement("tr");
+
+            for (let c = 0; c < triangle[r].length; c++) {
+                var cell = document.createElement("td");
+                cell.appendChild(document.createTextNode(triangle[r][c]));
+                row.appendChild(cell);
+            }
+
+            tableBody.appendChild(row);
+        }
+        table.appendChild(tableBody);
+        table.setAttribute("id", "table");
+
+        document.body.appendChild(table);
+    }
+
+    function showTriangle() { 
+        let rowsAmmount = document.getElementById("input").value - 1;
+        let triangle = (buildTriangle(rowsAmmount));
+        buildTable(triangle);
+    }
+</script>
+
+<style>
+    body {
+        background: #36393F;
+        color: white;
+        font-family: sans-serif;
+        padding: 10px;
+        text-align: center;
+    }
+
+    table {
+        border-spacing: 0.5em;
+        margin-top: 1em;
+        margin-left: auto;
+  margin-right: auto;
+
+    }
+    
+    td {
+        background: #292B2F;
+        padding: 0.5em 1em;
+        text-align: center;
+    }
+
+    input, button {
+        background: #616770;
+        border: none;
+        padding: 0.5em 1em;
+        margin: 0 0.5em;
+        border-radius: 0.5em;
+        color: white;
+    }
+
+    input::placeholder {
+        color: #C5C5C8;
+    }
+</style>
+
